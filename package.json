@@ -2,9 +2,9 @@
   "name": "unit-tests",
   "version": "0.0.0",
   "description": "A single command to install libs and setup scripts used in unit testing",
-  "main": "index.js",
+  "main": "index.mjs",
   "bin": {
-    "unit-tests": "./index.js"
+    "unit-tests": "./index.mjs"
   },
   "scripts": {
     "test": "jest",
