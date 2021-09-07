@@ -1,0 +1,20 @@
+{
+  "name": "unit-tests",
+  "version": "0.0.0",
+  "description": "A single command to install libs and setup scripts used in unit testing",
+  "main": "index.js",
+  "bin": {
+    "unit-tests": "./index.js"
+  },
+  "scripts": {
+    "test": "jest",
+    "tdd": "jest --watch"
+  },
+  "keywords": [
+    "test",
+    "testing",
+    "unit-tests"
+  ],
+  "author": "Darlan Alves <me@darlanalv.es>",
+  "license": "MIT"
+}
