@@ -55,12 +55,13 @@ async function copyFiles() {
     const source = Path.join(__dirname, file);
     const destination = Path.join(process.cwd(), file);
 
+    console.log(`> Copied ${file}`);
     copyFileSync(source, destination);
   });
 }
 
 async function updatePrompt() {
-  const answer = await confirm('Should I also update your package.json with new test scripts?');
+  const answer = await confirm('Update your package.json with new test scripts?');
 
   if (answer) {
     const packageJsonPath = Path.join(process.cwd(), 'package.json');
@@ -71,7 +72,7 @@ async function updatePrompt() {
     packageJson.scripts.tdd = 'jest --watch';
 
     writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
-    console.log('Update package.json');
+    console.log('> Updated package.json');
   }
 }
 
