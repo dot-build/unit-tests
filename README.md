@@ -8,3 +8,9 @@ This is a convenience script that installs the following:
 - [Typescript](https://www.typescriptlang.org/)
 - [Prettier](https://prettier.io/)
 - Jest and Typescript configuration to build an ES module
+
+## Usage
+
+```
+npx unit-tests
+```

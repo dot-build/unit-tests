@@ -2,11 +2,17 @@
 'use strict';
 
 import * as Path from 'path';
-import { writeFileSync, copyFileSync } from 'fs';
+import { writeFileSync, copyFileSync, readFileSync } from 'fs';
 import readline from 'readline';
 import { spawn } from 'child_process';
 
 async function installDependencies() {
+  const ok = await confirm('Install dependencies?');
+
+  if (!ok) {
+    return;
+  }
+
   const dependencies = {
     '@types/jest': '^27.0.1',
     '@types/node': '^14.14.31',
@@ -35,7 +41,13 @@ async function installDependencies() {
   });
 }
 
-function copyFiles() {
+async function copyFiles() {
+  const ok = await confirm('Update configuration files?');
+
+  if (!ok) {
+    return;
+  }
+
   const files = ['jest.config.ts', 'tsconfig.json', '.prettierrc'];
   const __dirname = decodeURIComponent(new URL('.', import.meta.url).pathname);
 
@@ -47,38 +59,32 @@ function copyFiles() {
   });
 }
 
-function updatePrompt() {
-  confirm('Should I also update your package.json with new test scripts?', (answer) => {
-    if (answer) {
-      const packageJsonPath = Path.join(process.cwd(), 'package.json');
-      const packageJson = require(packageJsonPath);
+async function updatePrompt() {
+  const answer = await confirm('Should I also update your package.json with new test scripts?');
 
-      packageJson.scripts = packageJson.scripts || {};
-      packageJson.scripts.test = 'jest';
-      packageJson.scripts.tdd = 'jest --watch';
+  if (answer) {
+    const packageJsonPath = Path.join(process.cwd(), 'package.json');
+    const packageJson = JSON.parse(readFileSync(packageJsonPath));
 
-      writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
-      console.log('package.json updated');
-    }
-  });
+    packageJson.scripts = packageJson.scripts || {};
+    packageJson.scripts.test = 'jest';
+    packageJson.scripts.tdd = 'jest --watch';
+
+    writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
+    console.log('Update package.json');
+  }
 }
 
 async function main() {
-  const ok = await confirm('Ready to install dependencies and update your project. Continue?');
-
-  if (!ok) {
-    return;
-  }
-
   await installDependencies();
-  copyFiles();
-  updatePrompt();
+  await copyFiles();
+  await updatePrompt();
 }
 
 main();
 
 function confirm(question) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     const cli = readline.createInterface({
       input: process.stdin,
       output: process.stdout,
