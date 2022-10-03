@@ -6,6 +6,9 @@
   "bin": {
     "unit-tests": "./index.mjs"
   },
+  "scripts": {
+    "test": "echo 'ok'"
+  },
   "keywords": [
     "test",
     "testing",
