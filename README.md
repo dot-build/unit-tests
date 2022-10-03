@@ -14,3 +14,7 @@ Installs Jest with Typescript support and prettier defaults
 ## npx unit-tests karma
 
 Installs Karma with Typescript support and Chrome for headless testing
+
+- [Karma](https://karma-runner.github.io/latest/index.html)
+- [Typescript](https://www.typescriptlang.org/)
+- [Prettier](https://prettier.io/)
