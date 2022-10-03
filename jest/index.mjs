@@ -1,6 +1,3 @@
-#!/usr/bin/env node
-'use strict';
-
 import { copyFiles, installDependencies, updateScripts } from '../common.mjs';
 
 const dependencies = {
