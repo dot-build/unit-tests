@@ -3,7 +3,7 @@ import { writeFileSync, copyFileSync, readFileSync } from "fs";
 import { spawn } from "child_process";
 import { join } from "path";
 
-const dryRun = process.argv.indexOf("--dryRun");
+const dryRun = process.argv.indexOf("--dryRun") !== -1;
 
 export function confirm(question) {
   return new Promise((resolve) => {
