@@ -1,9 +1,9 @@
-import readline from "readline";
-import { writeFileSync, copyFileSync, readFileSync } from "fs";
-import { spawn } from "child_process";
-import { join } from "path";
+import readline from 'readline';
+import { writeFileSync, copyFileSync, readFileSync } from 'fs';
+import { spawn } from 'child_process';
+import { join } from 'path';
 
-const dryRun = process.argv.indexOf("--dryRun") !== -1;
+const dryRun = process.argv.indexOf('--dryRun') !== -1;
 
 export function confirm(question) {
   return new Promise((resolve) => {
@@ -14,36 +14,34 @@ export function confirm(question) {
 
     cli.question(`${question} (Y,n)`, (answer) => {
       cli.close();
-      resolve(answer === "" || answer.toLowerCase() === "y");
+      resolve(answer === '' || answer.toLowerCase() === 'y');
     });
   });
 }
 
 export async function installDependencies(dependencies) {
-  console.log("Will install:");
+  console.log('Will install:');
   Object.entries(dependencies).forEach(([name, version]) => {
     console.log(`  ${name}@${version}`);
   });
 
-  const ok = await confirm("Install dependencies?");
+  const ok = await confirm('Install dependencies?');
 
   if (!ok) {
     return;
   }
 
-  const args = Object.entries(dependencies).map(
-    ([name, version]) => `${name}@${version}`
-  );
+  const args = Object.entries(dependencies).map(([name, version]) => `${name}@${version}`);
 
   return new Promise((resolve, reject) => {
     if (dryRun) {
-      console.log("npm install -D", ...args);
+      console.log('npm install -D', ...args);
       resolve();
       return;
     }
 
-    const npm = spawn("npm", ["install", "-D", ...args], { stdio: "inherit" });
-    npm.on("exit", (code) => {
+    const npm = spawn('npm', ['install', '-D', ...args], { stdio: 'inherit' });
+    npm.on('exit', (code) => {
       if (code === 0) {
         resolve();
       } else {
@@ -54,13 +52,13 @@ export async function installDependencies(dependencies) {
 }
 
 export async function copyFiles(sourcePath, files) {
-  const ok = await confirm("Update configuration files?");
+  const ok = await confirm('Update configuration files?');
 
   if (!ok) {
     return;
   }
 
-  const __dirname = decodeURIComponent(new URL(".", import.meta.url).pathname);
+  const __dirname = decodeURIComponent(new URL('.', import.meta.url).pathname);
 
   files.forEach((file) => {
     const source = join(__dirname, sourcePath, file);
@@ -75,15 +73,13 @@ export async function copyFiles(sourcePath, files) {
 }
 
 export async function updateScripts(scripts) {
-  const answer = await confirm(
-    "Update your package.json with new test scripts?"
-  );
+  const answer = await confirm('Update your package.json with new test scripts?');
 
   if (!answer) {
     return;
   }
 
-  const packageJsonPath = join(process.cwd(), "package.json");
+  const packageJsonPath = join(process.cwd(), 'package.json');
   const packageJson = JSON.parse(readFileSync(packageJsonPath));
 
   packageJson.scripts = packageJson.scripts || {};
@@ -93,5 +89,5 @@ export async function updateScripts(scripts) {
     writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
   }
 
-  console.log("> Updated package.json scripts", scripts);
+  console.log('> Updated package.json scripts', scripts);
 }
