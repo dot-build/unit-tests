@@ -1,5 +1,5 @@
 import readline from 'readline';
-import { writeFileSync, copyFileSync, readFileSync } from 'fs';
+import { writeFileSync, copyFileSync, readFileSync, existsSync } from 'fs';
 import { spawn } from 'child_process';
 import { join } from 'path';
 
@@ -60,8 +60,17 @@ export async function copyFiles(sourcePath, files) {
 
   const __dirname = decodeURIComponent(new URL('.', import.meta.url).pathname);
 
+  if (existsSync(join(__dirname, sourcePath, '_npmignore'))) {
+    files = files.concat(['_npmignore']);
+  }
+
   files.forEach((file) => {
     const source = join(__dirname, sourcePath, file);
+
+    if (file === '_npmignore') {
+      file = '.npmignore';
+    }
+
     const destination = join(process.cwd(), file);
 
     console.log(`> Write ${destination}`);

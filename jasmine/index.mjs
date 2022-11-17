@@ -13,7 +13,7 @@ const dependencies = {
   prettier: '^2.3.2',
 };
 
-const files = ['jasmine.json', 'tsconfig.json', 'tsconfig.spec.json', '.prettierrc', '.npmignore'];
+const files = ['jasmine.json', 'tsconfig.json', 'tsconfig.spec.json', '.prettierrc'];
 
 const scripts = {
   test: './node_modules/.bin/ts-node -P ./tsconfig.spec.json -- ./node_modules/jasmine/bin/jasmine --config=./jasmine.json',

@@ -11,7 +11,7 @@ const dependencies = {
   typescript: '^4.8.4',
 };
 
-const files = ['jest.config.ts', 'tsconfig.json', '.prettierrc', '.npmignore'];
+const files = ['jest.config.ts', 'tsconfig.json', '.prettierrc'];
 const scripts = {
   test: 'jest',
   tdd: 'jest --watchAll',
